@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Welcome - Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<style>
+</style>
+
+<body>
+    <div class="container">
+        <h2>Welcome!</h2>
+        <br> {% for message in messages %}
+        <p id="flash">{{ message }}</p>
+        {% endfor %}
+        <br>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5 panel panel-info">
+                <h2>Register</h2>
+                <form action="add_user" method="post">
+                    {% csrf_token %} Name:
+                    <input type="text" name="name">
+                    <br> Username:
+                    <input type="text" name="username">
+                    <br> Password:
+                    <input type="password" name="password">
+                    <br>
+                    <p>Password must be at least 8 characters long.</p>
+                    Confirm Password:
+                    <input type="password" name="confirm_password">
+                    <br>Date Hired:
+                    <input type="date" name="hire_date"><br>
+                    <input type="submit" value="Register">
+                </form>
+                <br>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5 panel panel-success">
+                <h2>Login</h2>
+                <form action="login" method="post">
+                    {% csrf_token %} Username:
+                    <input type="text" name="username">
+                    <br> Password:
+                    <input type="password" name="password">
+                    <br>
+                    <input type="submit" value="Login">
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

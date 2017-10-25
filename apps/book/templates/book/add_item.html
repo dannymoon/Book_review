@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Create Item</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <p style="text-align: right" ><a href="/wishlist">Home</a> - <a href="/logout">Logout</a></p>
+            <h2>Create a New Wish List Item</h2><br>
+            <form action="add" method="post">
+                    {% csrf_token %}
+                    Item/Product:
+                    <input type="text" name="item_name"><br>
+                    <br><input type="submit" value="Add">
+                </form>
+        </div>
+    </body>
+</html>

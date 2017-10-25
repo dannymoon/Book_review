@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>My Wish List</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <h2>Hello, {{request.session.login_status.name}}</h2>
+            <p style="text-align: right" ><a href="/logout">Logout</a></p>
+            <h4>Your Wish List:</h4><br>
+            <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Added By</th>
+                            <th>Date Added</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for item in items_belong_this %}
+                            {%for sub in item.wished_by.all %}
+                                <tr>
+                                    {% if sub.id == request.session.login_status.id %}
+                                        <td><a href="/wish_items/{{item.id}}">{{item.itemname}}</a></td>
+                                        <td>{{item.added_by.name}}</td>
+                                        <td>{{item.created_at|date:"M d, Y"}}</td>
+                                        {% if item.added_by_id == request.session.login_status.id %}
+                                            <td>
+                                                <form action="/delete_item" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="item_id" value="{{item.id}}">
+                                                    <input type="submit" value="Delete">
+                                                </form>
+                                            </td>
+                                        {% else %}
+                                        <td>
+                                            <form action="/remove_from_wishlist" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="item_id" value="{{item.id}}">
+                                                <input type="submit" value="Remove from my Wishlist">
+                                            </form>
+                                        </td>
+                                        {% endif %}
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </thead>
+            </table>
+            <h4>Other Users' Wish List:</h4><br>
+            <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Added By</th>
+                            <th>Date Added</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for item in items %}
+                            <tr>
+                                <td><a href="/wish_items/{{item.id}}">{{item.itemname}}</a></td>
+                                <td>{{item.added_by.name}}</td>
+                                <td>{{item.created_at|date:"M d, Y"}}</td>
+                                <td>
+                                    <form action="/add_to_wishlist" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="item_id" value="{{item.id}}">
+                                        <input type="submit" value="Add to my Wishlist">
+                                    </form>
+                                    </td>
+                            </tr>
+                        {% endfor %}
+                    </thead>
+            </table>
+            <a href="add_item">Add Item</a>
+        </div>
+    </body>
+</html>
